@@ -1,0 +1,58 @@
+package sample.cafekiosk.spring.api.order.controller;
+
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.http.MediaType;
+import sample.cafekiosk.spring.ControllerTestSupport;
+import sample.cafekiosk.spring.api.order.model.OrderCreateRq;
+
+import java.util.List;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+class OrderControllerTest extends ControllerTestSupport {
+
+    @Test
+    @DisplayName("신규 상품을 등록한다.")
+    void createOrder() throws Exception {
+        // given
+        OrderCreateRq rq = OrderCreateRq.of(List.of("001"));
+
+        // when  // then
+        mockMvc.perform(
+                        post("/api/v1/orders/new")
+                                .content(objectMapper.writeValueAsString(rq))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.code").value("200"))
+                .andExpect(jsonPath("$.status").value("OK"))
+                .andExpect(jsonPath("$.message").value("OK"))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+    @Test
+    @DisplayName("신규 상품을 등록할 때 상품 타입은 필수값이다.")
+    void createOrderWithEmptyList() throws Exception {
+        // given
+        OrderCreateRq rq = OrderCreateRq.of(List.of());
+
+        // when  // then
+        mockMvc.perform(
+                        post("/api/v1/orders/new")
+                                .content(objectMapper.writeValueAsString(rq))
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.code").value("400"))
+                .andExpect(jsonPath("$.status").value("BAD_REQUEST"))
+                .andExpect(jsonPath("$.message").value("상품 번호 리스트는 필수입니다."))
+                .andExpect(jsonPath("$.data").isEmpty());
+    }
+
+}
