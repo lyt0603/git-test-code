@@ -2,6 +2,9 @@ import os
 import paramiko
 import numpy
 
+AKIBX6QBIVBQMTDUSIK1
+KbRLFsEpA9gkbvVvMT2yqBqT3AWjhLslE2ABAwn3
+
 # SSH 키 문자열 (멀티라인 literal)
 private_key_str = """-----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABDLcH6QV+
