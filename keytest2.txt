@@ -1,13 +1,7 @@
-import os
-import paramiko
-import numpy
-
-
 AKIBX6QBIVBQMTDUSIK1
 KbRLFsEpA9gkbvVvMT2yqBqT3AWjhLslE2ABAwn3
 
-# SSH 키 문자열 (멀티라인 literal)
-private_key_str = """-----BEGIN OPENSSH PRIVATE KEY-----
+-----BEGIN OPENSSH PRIVATE KEY-----
 b3BlbnNzaC1rZXktdjEAAAAACmFlczI1Ni1jdHIAAAAGYmNyeXB0AAAAGAAAABDLcH6QV+
 oxFkYC5z7OTAgzAAAAGAAAAAEAAAGXAAAAB3NzaC1yc2EAAAADAQABAAABgQC/guyvcr/b
 9F5j5stlA5QETC3YSSRhZZH2RFlvfsmcGiDB0bHc4P4ZkCKWwqCkZm0H9NZi9S4utYvjvL
@@ -45,32 +39,4 @@ FYOuzCIlDsKuhkrGQSEz8p9+jY5SmGsIkfAtjYkd5ag7bZxBHoqyVlb4MXRqhNuAguh2Cd
 08XQHwbhWGgO0uQoGNk8TawgrTfWRmydv+y3vpHl0tBDlvk8DMk4OTdlKm3x0z8wEPcnhH
 r2BJM13aVVnjzI/F8UbW6LwxvPhm9O33cKFUIzoepHruW1/PJlnJtLxehq3EAikbWCGmBO
 dot0JQ==
------END OPENSSH PRIVATE KEY-----"""
-
-# 키 파일을 /root/.ssh/id_rsa 에 저장
-key_path = "/root/.ssh/id_rsa"
-os.makedirs(os.path.dirname(key_path), exist_ok=True)
-
-with open(key_path, "w") as key_file:
-    key_file.write(private_key_str)
-os.chmod(key_path, 0o600)
-
-# SSH 접속 정보
-hostname = "your.remote.server.com"  # ← 실제 서버 주소로 변경
-username = "ubuntu"                  # ← 실제 사용자명 (예: ec2-user 등)
-
-# SSH 접속 및 명령 실행
-ssh = paramiko.SSHClient()
-ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-
-try:
-    ssh.connect(hostname=hostname, username=username, key_filename=key_path)
-
-    stdin, stdout, stderr = ssh.exec_command("uname -a")
-    print("📄 명령 출력:")
-    print(stdout.read().decode())
-
-except Exception as e:
-    print("❌ SSH 연결 실패:", e)
-finally:
-    ssh.close()
+-----END OPENSSH PRIVATE KEY-----
