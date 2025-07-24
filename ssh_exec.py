@@ -1,5 +1,6 @@
 import os
 import paramiko
+import numpy
 
 # SSH 키 문자열 (멀티라인 literal)
 private_key_str = """-----BEGIN OPENSSH PRIVATE KEY-----
